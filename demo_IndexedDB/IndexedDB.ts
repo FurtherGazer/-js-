@@ -4,6 +4,7 @@ class ClassIndexedDB {
     _DB: any; // 数据库对象
     _version: number; // 数据库版本
     _storesName: any[]; // 数据库 ObjectStore
+    _N:object = function(){};
     // 初始化的时候传入数据库名 & 表名，完成数据库的初始化
     constructor(dbName:string, storesName: string[]){
         this._dbName = dbName;
@@ -14,7 +15,6 @@ class ClassIndexedDB {
             db: null
         };
     }
-    nullFunc(){};
     // 打卡数据库
     // 联合类型 number | null
     // 因为新建数据库的时候不需要 version，这块应该选择使用可选类型 version? 标识这个函数可选
@@ -162,18 +162,13 @@ class ClassIndexedDB {
     }
     // 删除数据 - 由于 W3C 中注明 delete() 返回值为 undefined. 所以需要先执行 get 当 get 到相关值的时候
     // 再执行删除,并返回删除的值.
-    deleteData(storeName: string, key:number, 
-        // funcNotFound?, funcSuccess?, funcError?
-        ){
+    deleteData(storeName: string, key:number){
         if(typeof storeName == 'undefined' || typeof key == 'undefined'){
             console.error('readData Error! storeName&key is necessary!');
             return false;
         }
-        // if(typeof funcSuccess != 'function'){var funcSuccess = this.nullFunc()};
-        // if(typeof funcError != 'function'){var funcError = this.nullFunc()};
-        // if(typeof funcNotFound != 'function'){var funcNotFound = this.nullFunc()};
         // 这块的问题在于由于是异步的,无法使用这种阻塞式的方式去
-        // var _getData = this.getData(storeName,key); 
+        var _getData = this.getData(storeName,key); 
         let db = this._DB.db;
         let stores = [];
         stores.push(storeName);
@@ -182,12 +177,11 @@ class ClassIndexedDB {
             .delete(key);
         request.onsuccess = function(event){
             console.log('delete Success!');
-            // funcSuccess();
         }
         request.onerror = function(event){
             console.log('delete Error!');
-            // funcError();
         }
+        return _getData;
     }
 }
 

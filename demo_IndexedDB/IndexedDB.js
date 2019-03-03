@@ -170,7 +170,7 @@ var ClassIndexedDB = /** @class */ (function () {
         // if(typeof funcError != 'function'){var funcError = this.nullFunc()};
         // if(typeof funcNotFound != 'function'){var funcNotFound = this.nullFunc()};
         // 这块的问题在于由于是异步的,无法使用这种阻塞式的方式去
-        // var _getData = this.getData(storeName,key); 
+        var _getData = this.getData(storeName, key);
         var db = this._DB.db;
         var stores = [];
         stores.push(storeName);
@@ -184,6 +184,7 @@ var ClassIndexedDB = /** @class */ (function () {
             console.log('delete Error!');
             // funcError();
         };
+        return _getData;
     };
     return ClassIndexedDB;
 }());
