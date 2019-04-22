@@ -7,4 +7,20 @@
     <body>
         TEST
     </body>
+<script>
+    // DB1. 打开并请求数据库
+    var _trueMetrics_objectDB = new ClassIndexedDB('_trueMetrics-HeatMap-DB', ['heatMapData'],
+        [{name:'_trueMetrics_Request', prop:'_trueMetrics_Request', obj:{ unique: false }},]
+    );
+    var _trueMetrics_storageData = new Array();
+    _trueMetrics_objectDB.openDB(undefined, function(){
+        _trueMetrics_objectDB.readAllKey('heatMapData',_trueMetrics_storageData, function(){})
+    });
+
+
+
+</script>
+
+
+
 </html>
